@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Choose Subscription Plan</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f8f8;
+      padding: 40px;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    select, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0 20px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .message {
+      text-align: center;
+      color: green;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Select a Subscription Plan</h2>
+  <form id="subscriptionForm">
+    <label for="plan">Subscription Plan:</label>
+    <select id="plan" name="subscriptionPlan" required>
+      <option value="basicMonthly">Basic - $20</option>
+      <option value="proMonthly">Pro - $50</option>
+      <option value="enterpriseMonthly">Enterprise - $100</option>
+    </select>
+
+    <button type="submit">Subscribe</button>
+  </form>
+
+  <div class="message" id="responseMessage"></div>
+</div>
+
+<script>
+  document.getElementById('subscriptionForm').addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    const selectedPlan = document.getElementById('plan').value;
+
+    const response = await fetch('/api/v1/payments/stripe/subscription', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({subscriptionPlan: selectedPlan})
+    });
+
+    if (response.ok) {
+      const result = await response.json(); // ⬅️ Read JSON
+      if (result.redirectUrl) {
+        window.location.href = result.redirectUrl; // ⬅️ Redirect
+      } else {
+        document.getElementById('responseMessage').innerText = 'No redirect URL received.';
+      }
+    } else {
+      const errorText = await response.text();
+      document.getElementById('responseMessage').innerText = 'Subscription failed: ' + errorText;
+    }
+  });
+</script>
+
+</body>
+</html>

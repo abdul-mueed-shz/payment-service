@@ -1,0 +1,26 @@
+# 🏁For development. Create application-dev.yaml file. Run your application in dev mode.
+# 🏁Get Api keys and related information for test mode in stripe's dashboard and use them for the following values in
+# your dev file.
+spring:
+  application:
+    name: stripe
+
+server:
+  port: 8080
+
+stripe:
+  domain: ${APP.DOMAIN}
+  port: ${server.port}
+  apiKey: ${STRIPE.API.KEY}
+  price: ${STIPE.PRICE.ID}
+  successUrl: ${STRIPE.PAYMENT.SUCCESS.URL}
+  cancelUrl: ${STRIPE.PAYMENT.CANCEL.URL}
+  webhook:
+    secret: ${STRIPE.WEBHOOK.SECRET}
+    endpoint: ${STRIPE.WEBHOOK.URI}
+
+  subscriptionPlans: # Proper company services subscriptions
+    prices:
+      proMonthly: ${STRIPE.SUBSCRIPTION.PRO}
+      basicMonthly: ${STRIPE.SUBSCRIPTION.BASIC}
+      enterpriseMonthly: ${STRIPE.SUBSCRIPTION.ENTERPRISE}
