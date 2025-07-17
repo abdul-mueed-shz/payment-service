@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  stripe-app: # Your stripe micro service
+    build: .
+    container_name: stripe-app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev # Run with dev profile.
+    networks:
+      - app-network
+    working_dir: /app
+
+networks:
+  app-network:
+    driver: bridge
