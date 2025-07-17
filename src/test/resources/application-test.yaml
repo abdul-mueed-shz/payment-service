@@ -3,3 +3,9 @@ stripe:
   success-url: https://example.com/success
   cancel-url: https://example.com/cancel
   price: price_1N2xyzExample123
+
+  subscriptionPlans:
+    prices:
+      proMonthly: price_1
+      basicMonthly: price_2
+      enterpriseMonthly: price_3
