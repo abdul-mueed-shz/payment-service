@@ -1,0 +1,5 @@
+stripe:
+  api-key: sk_test_12345
+  success-url: https://example.com/success
+  cancel-url: https://example.com/cancel
+  price: price_1N2xyzExample123

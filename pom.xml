@@ -51,6 +51,12 @@
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+
     <!--    Stripe Related -->
     <!-- https://mvnrepository.com/artifact/com.stripe/stripe-java -->
     <dependency>
@@ -87,6 +93,40 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <includes>
+            <include>**/*IntegrationTests.java</include>
+            <include>**/*Test.java</include>
+            <include>**/*Tests.java</include> <!-- This will catch StripeApplicationTests -->
+          </includes>
+          <excludes>
+            <!-- Optionally exclude other patterns -->
+            <exclude>**/*IT.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <includes>
+            <include>**/integration/**/*IntegrationTests.java</include>
+          </includes>
+        </configuration>
+      </plugin>
+      <!-- Maven -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
           <annotationProcessorPaths>
@@ -102,6 +142,8 @@
           </annotationProcessorPaths>
         </configuration>
       </plugin>
+
+      <!-- Springboot -->
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
