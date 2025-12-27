@@ -1,10 +1,10 @@
-package com.abdul.stripe.domain.stripe.usecase;
+package com.abdul.stripe.domain.payment.usecase;
 
 import com.abdul.stripe.config.StripeProperties;
-import com.abdul.stripe.domain.stripe.model.SubscriptionCheckoutRequestDto;
-import com.abdul.stripe.domain.stripe.model.SubscriptionCheckoutResponseDto;
-import com.abdul.stripe.domain.stripe.port.in.CheckoutSubscriptionSession;
-import com.abdul.stripe.domain.stripe.port.in.SubscriptionProductsUseCase;
+import com.abdul.stripe.domain.payment.model.SubscriptionCheckoutRequestDto;
+import com.abdul.stripe.domain.payment.model.SubscriptionCheckoutResponseDto;
+import com.abdul.stripe.domain.payment.port.in.CheckoutSubscriptionSession;
+import com.abdul.stripe.domain.payment.port.in.SubscriptionProductsUseCase;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import com.stripe.net.RequestOptions;

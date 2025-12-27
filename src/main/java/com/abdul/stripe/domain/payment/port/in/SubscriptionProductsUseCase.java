@@ -1,6 +1,6 @@
-package com.abdul.stripe.domain.stripe.port.in;
+package com.abdul.stripe.domain.payment.port.in;
 
-import com.abdul.stripe.domain.stripe.model.SubscriptionProductDto;
+import com.abdul.stripe.domain.payment.model.SubscriptionProductDto;
 import com.stripe.exception.StripeException;
 
 import java.util.List;

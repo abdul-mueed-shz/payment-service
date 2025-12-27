@@ -1,6 +1,6 @@
-package com.abdul.stripe.domain.stripe.mapper;
+package com.abdul.stripe.domain.payment.mapper;
 
-import com.abdul.stripe.domain.stripe.model.SubscriptionProductDto;
+import com.abdul.stripe.domain.payment.model.SubscriptionProductDto;
 import com.stripe.model.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;

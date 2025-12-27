@@ -1,7 +1,7 @@
-package com.abdul.stripe.domain.stripe.usecase;
+package com.abdul.stripe.domain.payment.usecase;
 
 import com.abdul.stripe.config.StripeProperties;
-import com.abdul.stripe.domain.stripe.port.in.CheckoutPaymentSessionUseCase;
+import com.abdul.stripe.domain.payment.port.in.CheckoutPaymentSessionUseCase;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import com.stripe.net.RequestOptions;

@@ -1,4 +1,4 @@
-package com.abdul.stripe.domain.stripe.port.in;
+package com.abdul.stripe.domain.payment.port.in;
 
 import com.stripe.exception.StripeException;
 

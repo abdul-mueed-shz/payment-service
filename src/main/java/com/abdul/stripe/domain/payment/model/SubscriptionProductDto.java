@@ -1,4 +1,4 @@
-package com.abdul.stripe.domain.stripe.model;
+package com.abdul.stripe.domain.payment.model;
 
 import lombok.Data;
 

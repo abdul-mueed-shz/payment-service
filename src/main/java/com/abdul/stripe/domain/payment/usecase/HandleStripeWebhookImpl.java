@@ -1,11 +1,13 @@
-package com.abdul.stripe.domain.stripe.usecase;
+package com.abdul.stripe.domain.payment.usecase;
 
 import com.abdul.stripe.config.StripeProperties;
-import com.abdul.stripe.domain.stripe.port.in.HandleStripeWebhook;
+import com.abdul.stripe.domain.payment.port.in.HandleStripeWebhook;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Event;
 import com.stripe.net.Webhook;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class HandleStripeWebhookImpl implements HandleStripeWebhook {
 
     private final StripeProperties stripeProperties;
+    private final ApplicationContext applicationContext;
 
     /**
      * Handles stripe webhook callback.
@@ -22,11 +25,17 @@ public class HandleStripeWebhookImpl implements HandleStripeWebhook {
      * @throws StripeException // Throws stripe exception if signature if not verified.
      */
     @Override
-    public void execute(
+    public String execute(
             String payload,
-            String signatureHeader) throws StripeException {
+            String signatureHeader) throws StripeException, JsonProcessingException {
         Event event = Webhook.constructEvent(payload, signatureHeader,
                 stripeProperties.getWebhook().getSecret());
-        System.out.println(event);
+        boolean eventHandlerExists = applicationContext.containsBean(event.getType());
+        if (!eventHandlerExists) {
+            return "No handler found for event type: " + event.getType();
+        }
+        AbstractProcessWebhookEvent abstractProcessWebhookEvent =
+                (AbstractProcessWebhookEvent) applicationContext.getBean(event.getType());
+        return abstractProcessWebhookEvent.execute(event);
     }
 }

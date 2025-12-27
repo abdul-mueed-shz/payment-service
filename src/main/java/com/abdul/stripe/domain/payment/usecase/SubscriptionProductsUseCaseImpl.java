@@ -1,8 +1,8 @@
-package com.abdul.stripe.domain.stripe.usecase;
+package com.abdul.stripe.domain.payment.usecase;
 
-import com.abdul.stripe.domain.stripe.mapper.SubscriptionProductMapper;
-import com.abdul.stripe.domain.stripe.model.SubscriptionProductDto;
-import com.abdul.stripe.domain.stripe.port.in.SubscriptionProductsUseCase;
+import com.abdul.stripe.domain.payment.mapper.SubscriptionProductMapper;
+import com.abdul.stripe.domain.payment.model.SubscriptionProductDto;
+import com.abdul.stripe.domain.payment.port.in.SubscriptionProductsUseCase;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Price;
 import com.stripe.model.PriceCollection;
