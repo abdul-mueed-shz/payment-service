@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SubscriptionCheckoutResponseInfo {
+public class SubscriptionCheckoutResponseDto {
 
     private String redirectUrl;
 }

@@ -27,7 +27,7 @@ public class CheckoutPaymentSessionUseCaseImpl implements CheckoutPaymentSession
                 .addLineItem(
                         SessionCreateParams.LineItem.builder()
                                 .setQuantity(1L)
-                                .setPrice(properties.getPrice())
+                                /*.setPrice(properties.getPrice())*/
                                 .build()
                 )
                 .build();

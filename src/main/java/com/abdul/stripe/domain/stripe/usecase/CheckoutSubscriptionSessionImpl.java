@@ -1,9 +1,10 @@
 package com.abdul.stripe.domain.stripe.usecase;
 
 import com.abdul.stripe.config.StripeProperties;
-import com.abdul.stripe.domain.stripe.model.SubscriptionCheckoutRequestInfo;
-import com.abdul.stripe.domain.stripe.model.SubscriptionCheckoutResponseInfo;
+import com.abdul.stripe.domain.stripe.model.SubscriptionCheckoutRequestDto;
+import com.abdul.stripe.domain.stripe.model.SubscriptionCheckoutResponseDto;
 import com.abdul.stripe.domain.stripe.port.in.CheckoutSubscriptionSession;
+import com.abdul.stripe.domain.stripe.port.in.SubscriptionProductsUseCase;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import com.stripe.net.RequestOptions;
@@ -18,31 +19,36 @@ import org.springframework.web.server.ResponseStatusException;
 public class CheckoutSubscriptionSessionImpl implements CheckoutSubscriptionSession {
 
     private final StripeProperties properties;
+    private final SubscriptionProductsUseCase subscriptionProductsUseCase;
 
     /**
-     * Process subscription to a product plan using {@link SubscriptionCheckoutRequestInfo}
      *
-     * @param subscriptionCheckoutRequestInfo {@link SubscriptionCheckoutRequestInfo}
      * @return redirect url
      * @throws StripeException if stripe fails to process the checkout request
      */
     @Override
-    public SubscriptionCheckoutResponseInfo execute(SubscriptionCheckoutRequestInfo subscriptionCheckoutRequestInfo)
+    public SubscriptionCheckoutResponseDto execute(
+            String productId,
+            SubscriptionCheckoutRequestDto subscriptionCheckoutRequestDto)
             throws StripeException {
-        String subscriptionPlanPriceId =
-                properties.getSubscriptionPlans().getPrices()
-                        .get(subscriptionCheckoutRequestInfo.getSubscriptionPlan());
-        if (subscriptionPlanPriceId == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No such plan exists: "
-                    + subscriptionCheckoutRequestInfo.getSubscriptionPlan());
+        String priceId = subscriptionProductsUseCase.getPriceIdForProduct(productId);
+        if (priceId == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No such plan exists for product: "
+                    + productId);
         }
+        String successUrl = subscriptionCheckoutRequestDto.getSuccessUrl() != null
+                ? subscriptionCheckoutRequestDto.getSuccessUrl() : properties.getSuccessUrl();
+
+        String cancelUrl = subscriptionCheckoutRequestDto.getCancelUrl() != null ?
+                subscriptionCheckoutRequestDto.getCancelUrl() : properties.getCancelUrl();
+
         SessionCreateParams params = SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.SUBSCRIPTION)
-                .setSuccessUrl(properties.getSuccessUrl() + "?session_id={CHECKOUT_SESSION_ID}")
-                .setCancelUrl(properties.getCancelUrl())
+                .setSuccessUrl(successUrl + "?session_id={CHECKOUT_SESSION_ID}")
+                .setCancelUrl(cancelUrl)
                 .addLineItem(
                         SessionCreateParams.LineItem.builder()
-                                .setPrice(subscriptionPlanPriceId)
+                                .setPrice(priceId)
                                 .setQuantity(1L)
                                 .build()
                 )
@@ -51,7 +57,7 @@ public class CheckoutSubscriptionSessionImpl implements CheckoutSubscriptionSess
                 .setApiKey(properties.getApiKey())
                 .build();
         Session session = Session.create(params, requestOptions);
-        SubscriptionCheckoutResponseInfo responseInfo = new SubscriptionCheckoutResponseInfo();
+        SubscriptionCheckoutResponseDto responseInfo = new SubscriptionCheckoutResponseDto();
         responseInfo.setRedirectUrl(session.getUrl());
         return responseInfo;
     }

@@ -12,15 +12,9 @@ stripe:
   domain: ${APP.DOMAIN}
   port: ${server.port}
   apiKey: ${STRIPE.API.KEY}
-  price: ${STIPE.PRICE.ID}
   successUrl: ${STRIPE.PAYMENT.SUCCESS.URL}
   cancelUrl: ${STRIPE.PAYMENT.CANCEL.URL}
   webhook:
     secret: ${STRIPE.WEBHOOK.SECRET}
     endpoint: ${STRIPE.WEBHOOK.URI}
 
-  subscriptionPlans: # Proper company services subscriptions
-    prices:
-      proMonthly: ${STRIPE.SUBSCRIPTION.PRO}
-      basicMonthly: ${STRIPE.SUBSCRIPTION.BASIC}
-      enterpriseMonthly: ${STRIPE.SUBSCRIPTION.ENTERPRISE}

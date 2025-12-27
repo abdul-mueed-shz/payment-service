@@ -72,27 +72,20 @@
       <version>${org.mapstruct.version}</version>
     </dependency>
 
-    <!-- Toolkit -->
-    <dependency>
-      <groupId>com.abdul.toolkit</groupId>
-      <artifactId>security</artifactId>
-      <version>1.0.0</version>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>com.abdul.toolkit</groupId>
-      <artifactId>utils</artifactId>
-      <version>1.0.0</version>
-      <scope>compile</scope>
-    </dependency>
-
     <!--  Mockito  -->
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-inline</artifactId>
       <version>5.2.0</version>
       <scope>test</scope>
+    </dependency>
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-actuator</artifactId>
+      </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
   </dependencies>
 
